@@ -38,7 +38,7 @@ checkgit() {
     rm -r /config/unraid_vm_icons
     fi
 	#run gitclone
-git -C /config clone https://github.com/SpaceinvaderOne/unraid_vm_icons.git				
+git -C /config clone https://github.com/RBootsGames/unraid_vm_icons.git				
 }
 
 # Create icon directory if not present then download selected icons. Skip if already done
@@ -53,6 +53,7 @@ downloadicons() {
 	downloadlinux
 	downloadfreebsd
 	downloadother
+	importcustom
 	downloadmacos
     echo "."
     echo "."
@@ -150,6 +151,16 @@ downloadother() {
 fi
 }
 
+# Import custom
+importcustom() {
+	CUST="/config/unraid_vm_icons/icons/Custom"
+	if [ ! -d $CUST ] ; then
+		mkdir -vp $CUST
+	fi
+	
+	rsync -a $CUST $DIR/
+}
+
 # Download macOS based OS icons if set in template
 downloadmacos() {
     if [ $macos == "yes" ] ; then
@@ -203,5 +214,4 @@ shall_i_delete
 downloadicons
 syncicons
 exit_time
-
 
